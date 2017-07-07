@@ -4,7 +4,7 @@
  * @return {number}
  */
 
- // js数组原生排序不够快，而且python快一些
+ // js数组原生排序不够快，而python快一些
  // var findMedianSortedArrays = function(nums1, nums2) {
  //      let arr = nums1.concat(nums2);
  //     let median = 0;

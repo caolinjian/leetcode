@@ -17,13 +17,14 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        usedChar = {}
+        usedChar = dict()
         start=result = 0
-        for i in range(len(s)):
-            if s[i] in usedChar and start<=usedChar[s[i]]:
-                start=usedChar[s[i]]+1
+        for i,c in enumerate(s):
+            if c in usedChar and start<=usedChar[c]:
+                start=usedChar[c]+1
             else:
-                result = max(i-start+1,result)
-            usedChar[s[i]]=i
-            
+                if i-start+1>result:
+                    result = i-start+1
+            usedChar[c]=i
+
         return result

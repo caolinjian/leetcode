@@ -5,27 +5,30 @@
  */
 var isMatch = function(s, p) {
     //return new RegExp('^'+p+'$').test(s)
-    var table = new Array(p.length + 1);
-    for(var i = 0; i < table.length; i++) {
-        table[i] = new Array(s.length + 1).fill(false);
+    var sLen = s.length;
+    var pLen = p.length;
+    var i,j;
+    var dp = new Array(pLen + 1);
+    for(i = 0; i <= pLen; i++) {
+        dp[i] = new Array(sLen + 1).fill(false);
     }
-    table[0][0] = true;
+    dp[0][0] = true;
 
-    for (var i = 2; i <= p.length; i++) {
-        table[i][0] = table[i-2][0] && p[i-1] == '*';
+    for (i = 2; i <= pLen; i++) {
+        dp[i][0] = dp[i-2][0] && p.charAt(i-1) == '*';
     }
 
-    for (var i = 1; i <= p.length; i++) {
-        for(var j = 1; j <= s.length; j++) {
-            if(p[i-1] != '*') {
-                table[i][j] = table[i-1][j-1] && (p[i-1] == s[j-1] || p[i-1] == '.');
+    for (i = 1; i <= pLen; i++) {
+        for(var j = 1; j <= sLen; j++) {
+            if(p.charAt(i-1) != '*') {
+                dp[i][j] = dp[i-1][j-1] && (p.charAt(i-1) == s.charAt(j-1) || p.charAt(i-1) == '.');
             } else {
-                table[i][j] = table[i-2][j] || table[i-1][j];
-                if(p[i-2] == s[j-1] || p[i-2] == '.') {
-                    table[i][j] |= table[i][j-1];
+                dp[i][j] = dp[i-2][j] || dp[i-1][j];
+                if(p.charAt(i-2) == s.charAt(j-1) || p.charAt(i-2) == '.') {
+                    dp[i][j] = dp[i][j]||dp[i][j-1];
                 }
             }
         }
     }
-    return Boolean(table[p.length][s.length])
+    return dp[pLen][sLen]
 };
